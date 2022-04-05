@@ -1,8 +1,34 @@
 import sexpdata
 import sys
-from sexpdata import Symbol;
+from sexpdata import Symbol
+import re
 
-rendered_references = sys.argv[1].split(',')
+def decompose_ref(ref):
+	m = re.match("([a-zA-Z]+)([0-9]+)", ref)
+	if m is not None:
+		return (m[1], int(m[2]))
+
+def parse_filters(ref_filters):
+	refs = []
+	ref_ranges = []
+	for filt in ref_filters:
+		m = re.match("([A-Za-z]+)([0-9]+)-([0-9]+)", filt)
+		if m is None:
+			refs.append(filt)
+		else:
+			ref_ranges.append((m[1], int(m[2]), int(m[3])))
+	return (refs, ref_ranges)
+
+def filter_matches(ref, filters):
+	if ref in filters[0]: return True
+	decomp = decompose_ref(ref)
+	if decomp is not None:
+		for r in filters[1]:
+			if r[0] == decomp[0] and r[1] <= decomp[1] and decomp[1] <= r[2]:
+				return True
+	return False
+
+ref_filters = parse_filters(sys.argv[1].split(','))
 
 def die(why):
 	print(why)
@@ -36,7 +62,7 @@ if data[0] != Symbol("kicad_pcb"):
 for footprint in data:
 	if isinstance(footprint, list) and footprint[0] == Symbol('footprint'):
 		reference = get_fp_text(footprint, 'reference')
-		if reference in rendered_references:
+		if filter_matches(reference, ref_filters):
 			print("Showing %s" % reference)
 			footprint_donthide(footprint)
 		else:
