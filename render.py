@@ -41,4 +41,4 @@ for i, additional_footprints in enumerate(args):
 	if i == 0:
 		os.system("cp %s/orig_%s%02d%s.png %s/%s%02d%s.png" % (outdir, outprefix, i, outsuffix, outdir, outprefix, i, outsuffix))
 	else:
-		os.system("compare -lowlight-color '#cccccc88' -highlight-color '#00000000' %s/orig_%s%02d%s.png %s/orig_%s%02d%s.png -fuzz 1000 %s/%s%02d%s.png" % (outdir, outprefix, i, outsuffix, outdir, outprefix, i-1, outsuffix, outdir, outprefix, i, outsuffix))
+		os.system("python imgdiff.py %s/orig_%s%02d%s.png %s/orig_%s%02d%s.png %s/%s%02d%s.png" % (outdir, outprefix, i, outsuffix, outdir, outprefix, i-1, outsuffix, outdir, outprefix, i, outsuffix))
