@@ -1,3 +1,5 @@
+#!/bin/python
+
 import sexpdata
 import sys
 from sexpdata import Symbol

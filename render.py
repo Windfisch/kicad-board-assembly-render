@@ -1,3 +1,5 @@
+#!/bin/python
+
 import sys
 import os
 
@@ -41,4 +43,4 @@ for i, additional_footprints in enumerate(args):
 	if i == 0:
 		os.system("cp %s/orig_%s%02d%s.png %s/%s%02d%s.png" % (outdir, outprefix, i, outsuffix, outdir, outprefix, i, outsuffix))
 	else:
-		os.system("python imgdiff.py %s/orig_%s%02d%s.png %s/orig_%s%02d%s.png %s/%s%02d%s.png" % (outdir, outprefix, i, outsuffix, outdir, outprefix, i-1, outsuffix, outdir, outprefix, i, outsuffix))
+		os.system("python %s/imgdiff.py %s/orig_%s%02d%s.png %s/orig_%s%02d%s.png %s/%s%02d%s.png" % (os.path.dirname(__file__), outdir, outprefix, i-1, outsuffix, outdir, outprefix, i, outsuffix, outdir, outprefix, i, outsuffix))
