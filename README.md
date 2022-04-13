@@ -37,3 +37,9 @@ they can confuse `pcbnew_do`.
 ## Example output
 
 TODO
+
+## FAQ
+
+- **This is _so slow_.** -- Yes. This ain't a question though.
+- **Why is this so slow?** -- Because *kiauto* is simulating mouse clicks in KiCAD and has ample
+  timeouts for doing so. After all, I don't care because it's still faster than doing this by hand.
